@@ -220,3 +220,19 @@ button:hover {
     text-align: center;
     box-shadow: 0 0 20px #ff0000aa;
 }
+
+#btn-container {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end; 
+    align-items: center;
+}
+
+#resetBlockedSitesBtn {
+    margin: 0; 
+    margin-right: 42px;
+}
+
+#blockSitesBtn {
+    margin: 0; 
+}

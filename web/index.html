@@ -3,33 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>Антипрокрастинатор</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
     <h1>Чёрный список сайтов</h1>
-
-    <div id="btn-container" style="display: flex; gap: 10px;">
-        <button id="resetBlockedSitesBtn" class="controlBtn">Сбросить заблокированные сайты</button>
-        <button id="blockSitesBtn" class="controlBtn">Заблокировать выбранные сайты</button>
-    </div>    
 
     <div id="upper-container">
         <div class="panel" id="task-container"></div>
     
         <div class="panel" id="site-container"></div>
+        <div class="panel" id="app-container" style="display: none;"></div>
 
         <div id="add-task-form" class="form-row">
             <input type="text" id="newTaskInput" class="input" placeholder="Введите задачу">
             <button id="addTaskBtn">Добавить Task</button>
         </div>
         
-        <div id="add-url-form" class="form-row">
-            <input type="text" id="newSiteInput" class="input" placeholder="Введите сайт">
-            <button id="addSiteBtn">Добавить URL</button>
-        </div>        
-    
-        <div class="panel" id="app-container" style="display: none;">
-            <h2>💻 Блокировка приложений</h2>
+        <div id="control-container">
+            <div id="add-url-form" class="form-row">
+                <input type="text" id="newSiteInput" class="input" placeholder="Введите сайт">
+                <button id="addSiteBtn">Добавить URL</button>
+            </div>
+            
+            <div id="btn-container" style="display: flex; gap: 10px;">
+                <button id="resetBlockedSitesBtn" class="controlBtn">Сбросить заблокированные сайты</button>
+                <button id="blockSitesBtn" class="controlBtn">Заблокировать выбранные сайты</button>
+            </div>   
         </div>
     </div>
     
@@ -54,6 +53,6 @@
 
     <div id="siteErrMsg" style="display: none;"> Выберите хотя бы один сайт для блокировки</div>
 
-    <script type="module" src="main.js"></script>
+    <script type="module" src="./js/main.js"></script>
 </body>
 </html>
