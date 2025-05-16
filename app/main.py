@@ -4,73 +4,32 @@ import os
 from db import (
     init_db,
    
-    get_tasks_from_db, add_task_to_db,
-    delete_task_from_db, update_task_status,
+    get_items_from_db, add_item_to_db,
+    delete_item_from_db, update_item_status,
 
-    get_sites_from_db, add_site_to_db,
-    delete_site_from_db, update_site_status
+    reset_status
 )
 
 from handlers import (
-    block_sites, killBrowsers
+    block_sites, kill_browsers
 )
 
 class API:
-    def getTasks(self):
-        tasks = get_tasks_from_db()
-        
-        return tasks
-    
-    def addNewTask(self, task):
-        print(task)
-        
-        new_task = add_task_to_db(task)
-        print(new_task)
-        
-        return new_task
-    
-    def deleteTask(self, id, title):
-        print(id)
-        delete_task_from_db(id)
+    def getItems(self, type):
+        return get_items_from_db(type)
 
-        return f"Удалена задача: {title}"
-    
-    def updateTaskStatus(self, task_id, task_status):
-        print(task_id)
-        print(task_status)
+    def addItem(self, type, value):
+        return add_item_to_db(type, value)
 
-        update_task_status(task_id, task_status)
-        
-        return f"Обновлен статус задачи: {task_status}"
-    
-    # ------------------------------------------------------
+    def deleteItem(self, type, id, label):
+        delete_item_from_db(type, id)
 
-    def getSites(self):
-        sites = get_sites_from_db()
-        
-        return sites
+        return f"{type.capitalize()} удалён: {label}"
 
-    def addNewSite(self, url):
-        print(url)
+    def updateStatus(self, type, id, status):
+        update_item_status(type, id, status)
         
-        new_site = add_site_to_db(url)
-        print(new_site)
-        
-        return new_site
-
-    def deleteSite(self, id, url):
-        print(id)
-        delete_site_from_db(id)
-        
-        return f"Удалён сайт: {url}"
-
-    def updateSiteStatus(self, site_id, is_active):
-        print(site_id)
-        print(is_active)
-
-        update_site_status(site_id, is_active)
-        
-        return f"Обновлен статус сайта: {is_active}"
+        return f"Статус {type} обновлён: {status}"
     
     def blockSites(self, sites):
         blocked_sites = []
@@ -85,9 +44,14 @@ class API:
         return f"Сайты заблокированы"
     
     def killBrowser(self):
-        killBrowsers()
+        kill_browsers()
 
         return f"Браузеры закрыты"
+    
+    def resetStatus(self, items, table):
+        reset_status(items, table)
+        
+        return f"Все сброшено"
 
 if __name__ == '__main__':
     init_db()

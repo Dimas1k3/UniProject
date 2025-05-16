@@ -2,11 +2,14 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Антипрокрастинатор</title>
     <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/upper-container.css">
+    <link rel="stylesheet" href="./css/lower-container.css">
 </head>
 <body>
-    <h1>Чёрный список сайтов</h1>
+    <div id="switch-button">Сайты ⇄ Приложения (Apps)</div>
 
     <div id="upper-container">
         <div class="panel" id="task-container"></div>
@@ -19,7 +22,7 @@
             <button id="addTaskBtn">Добавить Task</button>
         </div>
         
-        <div id="control-container">
+        <div id="control-site-container">
             <div id="add-url-form" class="form-row">
                 <input type="text" id="newSiteInput" class="input" placeholder="Введите сайт">
                 <button id="addSiteBtn">Добавить URL</button>
@@ -29,6 +32,18 @@
                 <button id="resetBlockedSitesBtn" class="controlBtn">Сбросить заблокированные сайты</button>
                 <button id="blockSitesBtn" class="controlBtn">Заблокировать выбранные сайты</button>
             </div>   
+        </div>
+
+        <div id="control-app-container" style="display: none;">
+            <div id="add-app-form" class="form-row">
+                <input type="text" id="newAppInput" class="input" placeholder="Введите приложение">
+                <button id="addAppBtn">Добавить App</button>
+            </div>
+            
+            <div id="btn-app-container" style="display: flex; gap: 10px;">
+                <button id="resetBlockedAppsBtn" class="controlBtn">Сбросить заблокированные приложения</button>
+                <button id="blockAppsBtn" class="controlBtn">Заблокировать выбранные приложения</button>
+            </div>
         </div>
     </div>
     
@@ -51,7 +66,12 @@
         </div>
     </div>
 
+    <div id="blockedAppsMsg" style="display: none;">
+        <p>✅ Выбранные приложения заблокированы.</p>
+    </div>
+
     <div id="siteErrMsg" style="display: none;"> Выберите хотя бы один сайт для блокировки</div>
+    <div id="appErrMsg" style="display: none;"> Выберите хотя бы одно приложение для блокировки</div>
 
     <script type="module" src="./js/main.js"></script>
 </body>

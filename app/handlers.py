@@ -75,7 +75,7 @@ def launch_browser(browser_exe):
         except Exception as e:
             print(f"Ошибка запуска {browser_exe}: {e}")
 
-def killBrowsers():
+def kill_browsers():
     active_browsers = get_active_main_browsers()
     print(active_browsers)
 
@@ -83,3 +83,18 @@ def killBrowsers():
         os.system(f"taskkill /F /T /IM {active_browsers[i]} >nul 2>&1")
         time.sleep(0.5)
         launch_browser(active_browsers[i])
+
+
+def kill_app_by_name(name: str):
+    for proc in psutil.process_iter(['pid', 'name']):
+        if name.lower() in proc.info['name'].lower():
+            psutil.Process(proc.info['pid']).kill()
+            print(f"Убит процесс: {proc.info['name']} (PID {proc.info['pid']})")
+
+# def watchdog(app_list):
+    
+    
+#     while is_on == True:
+#         for app in app_list:
+#             kill_app_by_name(app)
+#         time.sleep(3)

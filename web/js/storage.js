@@ -16,9 +16,20 @@ function loadSitesFromLocal() {
     return stored ? JSON.parse(stored) : [];
 }
 
+function saveAppsToLocal(apps) {
+    localStorage.setItem("apps", JSON.stringify(apps));
+}
+
+function loadAppsFromLocal() {
+    const stored = localStorage.getItem("apps");
+    return stored ? JSON.parse(stored) : [];
+}
+
 export {
     saveTasksToLocal,
     loadTasksFromLocal,
     saveSitesToLocal,
-    loadSitesFromLocal
-};
+    loadSitesFromLocal,
+    saveAppsToLocal,
+    loadAppsFromLocal
+}
