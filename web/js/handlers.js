@@ -1,6 +1,6 @@
 import { renderItems } from "./tasksSitesAppsScript.js";
 
-function killHandlers() {
+function killBrowsers() {
     const blockedSitesMsg = document.getElementById("blockedSitesMsg");
     const confirmKillBtn = document.getElementById("confirmKill");
     const cancelKillBtn = document.getElementById("cancelKill");
@@ -14,7 +14,7 @@ function killHandlers() {
     cancelKillBtn.addEventListener("click", cancelKillHandler);
 }
 
-function confirmKillHandler() {
+function confirmKillBrowsers() {
     window.pywebview.api.killBrowser()
         .then(() => {
             document.getElementById("blockedSitesMsg").style.display = "none";
@@ -24,7 +24,7 @@ function confirmKillHandler() {
         });
 }
 
-function cancelKillHandler() {
+function cancelKillBrowsers() {
     document.getElementById("blockedSitesMsg").style.display = "none";
 }
 
@@ -45,33 +45,46 @@ function resetItems(items, table) {
     }
 
     window.pywebview.api.resetStatus(changed, table)
-        .then(() => {
-            renderItems("site", items, "site-container");
+        .then((item) => {
+            renderItems(`${item}`, items, `${item}-container`);
         })
         .catch(err => {
             console.error("Ошибка при сбросе сайтов:", err);
     });
 }
 
-function blockItems(sites, siteErrMsg) {
-    const activeSites = sites.filter(site => site.is_active);
+function blockItems(items, ErrMsg, type) {
+    const activeItems = items.filter(item => item.is_active);
             
-    if (activeSites.length === 0) {
-        siteErrMsg.style.display = "block";
+    if (activeItems.length === 0) {
+        ErrMsg.style.display = "block";
         setTimeout(() => {
-            siteErrMsg.style.display = "none";
+            ErrMsg.style.display = "none";
         }, 2000);
             
         return;
     }
-            
-    window.pywebview.api.blockSites(sites)
-        .then(() => {
-            killHandlers(); 
-        })
-        .catch(err => {
-            console.error("Ошибка при блокировке сайтов:", err);
-    });
+
+    if (type === 'sites') {     
+        window.pywebview.api.blockSites(items)
+            .then((response) => {
+                if (response === '') confirmKillBrowsers(); 
+            })
+            .catch(err => {
+                console.error("Ошибка при блокировке", err);
+        });
+        return;
+    }
+
+    if (type === 'apps') {
+        window.pywebview.api.blockApps(items)
+            .then((response) => { 
+            })
+            .catch(err => {
+                console.error("Ошибка при блокировке", err);
+        });
+        return;
+    }
 }
 
 function switchSiteAppContainer(isAppsMode, switchButton, siteContainer, 
@@ -90,4 +103,4 @@ function switchSiteAppContainer(isAppsMode, switchButton, siteContainer,
     return isAppsMode;
 }
 
-export { killHandlers, resetItems, blockItems, switchSiteAppContainer};
+export { killBrowsers, resetItems, blockItems, switchSiteAppContainer};

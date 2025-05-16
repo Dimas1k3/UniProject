@@ -2,10 +2,42 @@ import os
 import time
 import psutil
 import subprocess
+import platform
 
-HOSTS_PATH = r"C:\Windows\System32\drivers\etc\hosts"
+from db import get_active_apps_from_db
 
-REDIRECT_IP = "127.0.0.1"  
+system = platform.system()
+
+if system == "Windows":
+    HOSTS_PATH = r"C:\Windows\System32\drivers\etc\hosts"
+    REDIRECT_IP = "127.0.0.1"
+    paths = {
+        "chrome.exe": r"C:\Program Files\Google\Chrome\Application\chrome.exe",
+        "msedge.exe": r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe",
+        "firefox.exe": r"C:\Program Files\Mozilla Firefox\firefox.exe",
+        "opera.exe": r"%LOCALAPPDATA%\Programs\Opera\launcher.exe",
+    }
+
+elif system == "Darwin": 
+    HOSTS_PATH = "/etc/hosts"
+    REDIRECT_IP = "127.0.0.1"
+    paths = {
+        "Google Chrome": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+        "Firefox": "/Applications/Firefox.app/Contents/MacOS/firefox",
+        "Safari": "/Applications/Safari.app/Contents/MacOS/Safari",
+        "Opera": "/Applications/Opera.app/Contents/MacOS/Opera",
+    }
+
+    process_to_app = {
+        "chrome.exe": "Google Chrome",
+        "firefox.exe": "Firefox",
+        "opera.exe": "Opera",
+        "safari.exe": "Safari"
+    }
+
+else:
+    raise RuntimeError(f"Unsupported OS: {system}")
+
 BLOCK_MARKER = "# ANTIPROKRA START"
 BLOCK_END = "# ANTIPROKRA END"
 
@@ -14,16 +46,18 @@ browsers = [
     "msedge.exe",
     "firefox.exe",
     "opera.exe",
-    "yandex.exe"  
 ]
 
-paths = {
-    "chrome.exe": r"C:\Program Files\Google\Chrome\Application\chrome.exe",
-    "msedge.exe": r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe",
-    "firefox.exe": r"C:\Program Files\Mozilla Firefox\firefox.exe",
-    "opera.exe": r"%LOCALAPPDATA%\Programs\Opera\launcher.exe",
-    "yandex.exe": r"%LOCALAPPDATA%\Yandex\YandexBrowser\Application\browser.exe"
-}
+def filter_items(items, type):
+    blocked_items = []
+    print(items)
+
+    for item in items:
+        print(item)
+        if item['is_active'] == True:
+            blocked_items.append(item[type])
+
+    return blocked_items
 
 def block_sites(sites):
     with open(HOSTS_PATH, 'r', encoding='utf-8') as f:
@@ -68,7 +102,12 @@ def get_active_main_browsers():
     return list(found)
 
 def launch_browser(browser_exe):
-    path = os.path.expandvars(paths.get(browser_exe, ""))
+    if system == "Darwin":
+        app_key = process_to_app.get(browser_exe)
+        path = paths.get(app_key, "")
+    else:
+        path = os.path.expandvars(paths.get(browser_exe, ""))
+
     if path and os.path.exists(path):
         try:
             subprocess.Popen(path)
@@ -79,22 +118,36 @@ def kill_browsers():
     active_browsers = get_active_main_browsers()
     print(active_browsers)
 
-    for i in range(len(active_browsers)):
-        os.system(f"taskkill /F /T /IM {active_browsers[i]} >nul 2>&1")
+    for browser in active_browsers:
+        if system == "Windows":
+            os.system(f"taskkill /F /T /IM {browser} >nul 2>&1")
+        else:
+            browser_name = browser.replace(".exe", "")
+            os.system(f"pkill -f {browser_name}")
+
         time.sleep(0.5)
-        launch_browser(active_browsers[i])
+        launch_browser(browser)
 
-
-def kill_app_by_name(name: str):
+def kill_app_by_name(name):
+    name = normalize_exe_name(name)
+    
     for proc in psutil.process_iter(['pid', 'name']):
         if name.lower() in proc.info['name'].lower():
             psutil.Process(proc.info['pid']).kill()
             print(f"Убит процесс: {proc.info['name']} (PID {proc.info['pid']})")
 
-# def watchdog(app_list):
+def block_apps(apps):
+    while True:
+        current_apps = get_active_apps_from_db()  
+        print(current_apps)
+        print(apps)
+        if set(current_apps) != set(apps):
+            break
+
+        for app in apps:
+            kill_app_by_name(app)
+
+        time.sleep(5)
     
-    
-#     while is_on == True:
-#         for app in app_list:
-#             kill_app_by_name(app)
-#         time.sleep(3)
+def normalize_exe_name(name):
+    return name if name.lower().endswith(".exe") else name + ".exe"

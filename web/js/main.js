@@ -9,7 +9,7 @@ import {
 } from './storage.js';
 
 import { 
-    killHandlers, blockItems,
+    killBrowsers, blockItems,
     resetItems,
     switchSiteAppContainer
 } from './handlers.js';
@@ -43,7 +43,6 @@ function initApp() {
         tasks = fetchedTasks;
 
         saveTasksToLocal(tasks);
-        console.info(tasks);
         renderItems("task", tasks, "task-container");
     });
 
@@ -51,7 +50,6 @@ function initApp() {
         sites = fetchedSites;
 
         saveSitesToLocal(sites);
-        console.info(sites);
         renderItems("site", sites, "site-container");
     });
 
@@ -59,7 +57,6 @@ function initApp() {
         apps = fetchedApps;
 
         saveAppsToLocal(apps);
-        console.info(apps);
         renderItems("app", apps, "app-container");
     });
 
@@ -86,7 +83,7 @@ function initApp() {
     });
 
     blockSitesBtn.addEventListener("click", () => {
-        blockItems(sites, siteErrMsg);
+        blockItems(sites, siteErrMsg, 'sites');
     });
 
     resetBlockedAppsBtn.addEventListener("click", () => {
@@ -94,7 +91,7 @@ function initApp() {
     });
  
     blockAppsBtn.addEventListener("click", () => {
-        blockItems(apps, appErrMsg);
+        blockItems(apps, appErrMsg, 'apps');
     });
 
     switchButton.addEventListener("click", () => {
@@ -106,8 +103,6 @@ function initApp() {
 
         isAppsMode = newIsAppsMode;
     });
-
-
 }
 
 window.addEventListener('pywebviewready', initApp);

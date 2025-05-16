@@ -78,6 +78,7 @@ def get_items_from_db(item_type):
 
     return result
 
+
 def add_item_to_db(item_type, value):
     conn = get_connection()
     cursor = conn.cursor()
@@ -102,6 +103,7 @@ def add_item_to_db(item_type, value):
         column: value
     }
 
+
 def delete_item_from_db(item_type, item_id):
     conn = get_connection()
     cursor = conn.cursor()
@@ -114,6 +116,7 @@ def delete_item_from_db(item_type, item_id):
 
     conn.commit()
     conn.close()
+
 
 def update_item_status(item_type, item_id, status):
     conn = get_connection()
@@ -158,7 +161,6 @@ def update_item_status(item_type, item_id, status):
     conn.commit()
     conn.close()
 
-# ----------------------------------------
 
 def reset_status(items, table):
     conn = get_connection()
@@ -172,3 +174,17 @@ def reset_status(items, table):
 
     conn.commit()
     conn.close()
+
+
+def get_active_apps_from_db():
+    conn = sqlite3.connect("antiprok.db")
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT name FROM apps WHERE is_active = 1")
+    
+    result = []
+    for row in cursor.fetchall():
+        result.append(row[0])
+    
+    conn.close()
+    return result

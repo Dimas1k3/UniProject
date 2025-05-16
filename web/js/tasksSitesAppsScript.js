@@ -10,7 +10,7 @@ function renderItems(type, items, containerId) {
     }[type];
 
     container.appendChild(header);
-
+    console.info(type, items, containerId);
     items.forEach((item) => {
         const id = item.id;
         const block = document.createElement("div");
