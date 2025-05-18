@@ -104,15 +104,18 @@ def get_active_main_browsers():
 def launch_browser(browser_exe):
     if system == "Darwin":
         app_key = process_to_app.get(browser_exe)
-        path = paths.get(app_key, "")
+        if app_key:
+            try:
+                subprocess.Popen(["open", "-a", app_key])
+            except Exception as e:
+                print(f"Ошибка запуска {app_key}: {e}")
     else:
         path = os.path.expandvars(paths.get(browser_exe, ""))
-
-    if path and os.path.exists(path):
-        try:
-            subprocess.Popen(path)
-        except Exception as e:
-            print(f"Ошибка запуска {browser_exe}: {e}")
+        if path and os.path.exists(path):
+            try:
+                subprocess.Popen(path)
+            except Exception as e:
+                print(f"Ошибка запуска {browser_exe}: {e}")
 
 def kill_browsers():
     active_browsers = get_active_main_browsers()
@@ -132,7 +135,8 @@ def kill_app_by_name(name):
     name = normalize_exe_name(name)
     
     for proc in psutil.process_iter(['pid', 'name']):
-        if name.lower() in proc.info['name'].lower():
+        proc_name = proc.info['name'].lower()
+        if proc_name == name.lower():
             psutil.Process(proc.info['pid']).kill()
             print(f"Убит процесс: {proc.info['name']} (PID {proc.info['pid']})")
 
@@ -150,4 +154,6 @@ def block_apps(apps):
         time.sleep(5)
     
 def normalize_exe_name(name):
-    return name if name.lower().endswith(".exe") else name + ".exe"
+    if system == "Windows":
+        return name if name.lower().endswith(".exe") else name + ".exe"
+    return name
