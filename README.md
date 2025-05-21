@@ -1,8 +1,8 @@
-# 🛡️ Antiprokastinators
+# 🛡️ Antiprokrastinators
 
 ## Projekta uzdevums
 
-**Antiprokastinators** ir vienkārša darbvirsmas lietotne, kas palīdz uzlabot lietotāja produktivitāti, bloķējot traucējošas vietnes un lietotnes, kā arī ļauj organizēt uzdevumus. Galvenās funkcijas:
+**Antiprokrastinators** ir vienkārša darbvirsmas lietotne, kas palīdz uzlabot lietotāja produktivitāti, bloķējot traucējošas vietnes un lietotnes, kā arī ļauj organizēt uzdevumus. Galvenās funkcijas:
 
 - Pārvaldīt traucējošās vietnes un lietotnes;
 - Bloķēt tās uz noteiktu brīdi (`hosts` faila modifikācija vai procesu apturēšana);
