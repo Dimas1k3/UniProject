@@ -57,6 +57,7 @@ pip install psutil pywebview
 
 ### Palaišana:
 ```bash
+cd uniproject
 python main.py
 ```
 
