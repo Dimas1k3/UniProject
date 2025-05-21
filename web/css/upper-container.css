@@ -12,7 +12,7 @@
     padding: 20px;
     flex: 1;
     min-width: 300px;
-    max-height: 200px; 
+    max-height: 270px; 
     overflow-y: auto;
     box-shadow: 0 0 10px #f00a;
 }
@@ -46,6 +46,10 @@
     font-size: 16px;
     color: #fff;
     text-decoration: none;
+
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
 }
 
 .task-block input[type="checkbox"]:checked + label {

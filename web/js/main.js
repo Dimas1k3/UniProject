@@ -89,7 +89,7 @@ function initApp() {
     resetBlockedAppsBtn.addEventListener("click", () => {
         resetItems(apps, "apps");
     });
- 
+
     blockAppsBtn.addEventListener("click", () => {
         blockItems(apps, appErrMsg, 'apps');
     });

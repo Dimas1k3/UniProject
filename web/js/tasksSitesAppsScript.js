@@ -4,9 +4,9 @@ function renderItems(type, items, containerId) {
 
     const header = document.createElement("h2");
     header.textContent = {
-        site: "🌐 Сайты",
-        app: "💻 Приложения",
-        task: "📝 Задачи"
+        site: "🌐 Websites",
+        app: "💻 Applications",
+        task: "📝 Tasks"
     }[type];
 
     container.appendChild(header);
@@ -41,7 +41,7 @@ function renderItems(type, items, containerId) {
         }
 
         const removeBtn = document.createElement("button");
-        removeBtn.textContent = "Удалить";
+        removeBtn.textContent = "Delete";
         removeBtn.className = "remove-btn";
         removeBtn.addEventListener("click", () => {
             removeItem(type, items, id, containerId);
@@ -74,7 +74,7 @@ function addItem(type, items, containerId) {
             renderItems(type, items, containerId);
         })
         .catch(err => {
-            console.error(`Ошибка при добавлении ${type}:`, err);
+            console.error(`Error while adding ${type}:`, err);
         });
 }
 
@@ -88,7 +88,7 @@ function removeItem(type, items, id, containerId) {
             renderItems(type, items, containerId);
         })
         .catch(err => {
-            console.error(`Ошибка при удалении ${type}:`, err);
+            console.error(`Error while deleting ${type}:`, err);
         });
 }
 

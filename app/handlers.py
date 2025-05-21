@@ -18,7 +18,7 @@ if system == "Windows":
         "opera.exe": r"%LOCALAPPDATA%\Programs\Opera\launcher.exe",
     }
 
-elif system == "Darwin": 
+elif system == "Darwin":
     HOSTS_PATH = "/etc/hosts"
     REDIRECT_IP = "127.0.0.1"
     paths = {
@@ -48,14 +48,14 @@ browsers = [
     "opera.exe",
 ]
 
-def filter_items(items, type):
+def filter_items(items, key):
     blocked_items = []
     print(items)
 
     for item in items:
         print(item)
-        if item['is_active'] == True:
-            blocked_items.append(item[type])
+        if item['is_active'] is True:
+            blocked_items.append(item[key])
 
     return blocked_items
 
@@ -87,7 +87,28 @@ def block_sites(sites):
     with open(HOSTS_PATH, 'w', encoding='utf-8') as f:
         f.writelines(lines)
 
-    print("Сайты заблокированы через hosts")
+    print("Websites blocked via hosts file")
+
+def reset_sites():
+    with open(HOSTS_PATH, 'r', encoding='utf-8') as f:
+        lines = f.readlines()
+
+    start = None
+    end = None
+    for i, line in enumerate(lines):
+        if BLOCK_MARKER in line:
+            start = i
+        if BLOCK_END in line:
+            end = i + 1
+            break
+
+    if start is not None and end is not None:
+        del lines[start:end]
+
+    with open(HOSTS_PATH, 'w', encoding='utf-8') as f:
+        f.writelines(lines)
+
+    print("Websites unblocked (block removed from hosts)")
 
 def get_active_main_browsers():
     found = set()
@@ -108,14 +129,14 @@ def launch_browser(browser_exe):
             try:
                 subprocess.Popen(["open", "-a", app_key])
             except Exception as e:
-                print(f"Ошибка запуска {app_key}: {e}")
+                print(f"Failed to launch {app_key}: {e}")
     else:
         path = os.path.expandvars(paths.get(browser_exe, ""))
         if path and os.path.exists(path):
             try:
                 subprocess.Popen(path)
             except Exception as e:
-                print(f"Ошибка запуска {browser_exe}: {e}")
+                print(f"Failed to launch {browser_exe}: {e}")
 
 def kill_browsers():
     active_browsers = get_active_main_browsers()
@@ -133,16 +154,16 @@ def kill_browsers():
 
 def kill_app_by_name(name):
     name = normalize_exe_name(name)
-    
+
     for proc in psutil.process_iter(['pid', 'name']):
         proc_name = proc.info['name'].lower()
         if proc_name == name.lower():
             psutil.Process(proc.info['pid']).kill()
-            print(f"Убит процесс: {proc.info['name']} (PID {proc.info['pid']})")
+            print(f"Killed process: {proc.info['name']} (PID {proc.info['pid']})")
 
 def block_apps(apps):
     while True:
-        current_apps = get_active_apps_from_db()  
+        current_apps = get_active_apps_from_db()
         print(current_apps)
         print(apps)
         if set(current_apps) != set(apps):
@@ -152,7 +173,7 @@ def block_apps(apps):
             kill_app_by_name(app)
 
         time.sleep(5)
-    
+
 def normalize_exe_name(name):
     if system == "Windows":
         return name if name.lower().endswith(".exe") else name + ".exe"

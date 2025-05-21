@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Антипрокрастинатор</title>
+    <title>Antiprocrastinator</title>
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/upper-container.css">
     <link rel="stylesheet" href="./css/lower-container.css">
 </head>
 <body>
-    <div id="switch-button">Сайты ⇄ Приложения (Apps)</div>
+
+    <div id="switch-button">Sites ⇄ Applications (Apps)</div>
 
     <div id="upper-container">
         <div class="panel" id="task-container"></div>
@@ -18,60 +19,50 @@
         <div class="panel" id="app-container" style="display: none;"></div>
 
         <div id="add-task-form" class="form-row">
-            <input type="text" id="newTaskInput" class="input" placeholder="Введите задачу">
-            <button id="addTaskBtn">Добавить Task</button>
+            <input type="text" id="newTaskInput" class="input" placeholder="Enter task">
+            <button id="addTaskBtn">Add Task</button>
         </div>
         
         <div id="control-site-container">
             <div id="add-url-form" class="form-row">
-                <input type="text" id="newSiteInput" class="input" placeholder="Введите сайт">
-                <button id="addSiteBtn">Добавить URL</button>
+                <input type="text" id="newSiteInput" class="input" placeholder="Enter website URL">
+                <button id="addSiteBtn">Add URL</button>
             </div>
             
             <div id="btn-container" style="display: flex; gap: 10px;">
-                <button id="resetBlockedSitesBtn" class="controlBtn">Сбросить заблокированные сайты</button>
-                <button id="blockSitesBtn" class="controlBtn">Заблокировать выбранные сайты</button>
+                <button id="resetBlockedSitesBtn" class="controlBtn">Reset blocked websites</button>
+                <button id="blockSitesBtn" class="controlBtn">Block selected websites</button>
             </div>   
         </div>
 
         <div id="control-app-container" style="display: none;">
             <div id="add-app-form" class="form-row">
-                <input type="text" id="newAppInput" class="input" placeholder="Введите приложение">
-                <button id="addAppBtn">Добавить App</button>
+                <input type="text" id="newAppInput" class="input" placeholder="Enter application name">
+                <button id="addAppBtn">Add App</button>
             </div>
             
             <div id="btn-app-container" style="display: flex; gap: 10px;">
-                <button id="resetBlockedAppsBtn" class="controlBtn">Сбросить заблокированные приложения</button>
-                <button id="blockAppsBtn" class="controlBtn">Заблокировать выбранные приложения</button>
+                <button id="resetBlockedAppsBtn" class="controlBtn">Reset blocked apps</button>
+                <button id="blockAppsBtn" class="controlBtn">Block selected apps</button>
             </div>
         </div>
     </div>
     
-    <div id="lower-container">
-        <div class="panel" id="timer-container">
-            <h2>⏱️ Таймер</h2>
-        </div>
-    
-        <div class="panel" id="stats-container">
-            <h2>📊 Статистика</h2>
-        </div>
-    </div>
-
     <div id="blockedSitesMsg" style="display: none;">
-        <p>✅ Выбранные сайты заблокированы.<br>Чтобы блокировка сработала — нужно перезапустить браузер.</p>
-        <p>💣 Перезапустить браузеры автоматически?</p>
+        <p>✅ Selected websites have been blocked.<br>To apply the block, restart the browser.</p>
+        <p>💣 Restart browsers automatically?</p>
         <div style="display: flex; gap: 15px; justify-content: center; margin-top: 10px;">
-            <button id="confirmKill">ДА</button>
-            <button id="cancelKill">НЕТ</button>
+            <button id="confirmKill">YES</button>
+            <button id="cancelKill">NO</button>
         </div>
     </div>
 
     <div id="blockedAppsMsg" style="display: none;">
-        <p>✅ Выбранные приложения заблокированы.</p>
+        <p>✅ Selected applications have been blocked.</p>
     </div>
 
-    <div id="siteErrMsg" style="display: none;"> Выберите хотя бы один сайт для блокировки</div>
-    <div id="appErrMsg" style="display: none;"> Выберите хотя бы одно приложение для блокировки</div>
+    <div id="siteErrMsg" style="display: none;"> Please select at least one website to block</div>
+    <div id="appErrMsg" style="display: none;"> Please select at least one application to block</div>
 
     <script type="module" src="./js/main.js"></script>
 </body>

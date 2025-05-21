@@ -20,7 +20,7 @@ function confirmKillBrowsers() {
             document.getElementById("blockedSitesMsg").style.display = "none";
         })
         .catch(err => {
-            console.error("❌ Ошибка при закрытии браузеров");
+            console.error("❌ Error while closing browsers");
         });
 }
 
@@ -40,7 +40,7 @@ function resetItems(items, table) {
     });
 
     if (changed.length === 0) {
-        // show err
+        // show error
         return;
     }
 
@@ -49,7 +49,7 @@ function resetItems(items, table) {
             renderItems(`${item}`, items, `${item}-container`);
         })
         .catch(err => {
-            console.error("Ошибка при сбросе сайтов:", err);
+            console.error("Error while resetting:", err);
     });
 }
 
@@ -68,10 +68,25 @@ function blockItems(items, ErrMsg, type) {
     if (type === 'sites') {     
         window.pywebview.api.blockSites(items)
             .then((response) => {
-                if (response === '') confirmKillBrowsers(); 
+                console.info(response);
+                console.log(typeof response);
+                if (response === 'Websites blocked') {
+                    const confirmKill = document.getElementById("confirmKill")
+                    const cancelKill = document.getElementById("cancelKill")
+                    document.getElementById("blockedSitesMsg").style.display = "block";
+                    
+                    confirmKill.addEventListener("click", () => {
+                        confirmKillBrowsers(); 
+                    });
+
+                    cancelKill.addEventListener("click", () => {
+                        document.getElementById("blockedSitesMsg").style.display = "none";
+                        return;
+                    });
+                }
             })
             .catch(err => {
-                console.error("Ошибка при блокировке", err);
+                console.error("Error while blocking", err);
         });
         return;
     }
@@ -81,7 +96,7 @@ function blockItems(items, ErrMsg, type) {
             .then((response) => { 
             })
             .catch(err => {
-                console.error("Ошибка при блокировке", err);
+                console.error("Error while blocking", err);
         });
         return;
     }
@@ -92,8 +107,8 @@ function switchSiteAppContainer(isAppsMode, switchButton, siteContainer,
     isAppsMode = !isAppsMode;
 
     switchButton.classList.toggle("active");
-    switchButton.textContent = isAppsMode ? "Сайты ⇄ Приложения (Apps)" : "Приложения ⇄ Сайты (Sites)";
-    
+    switchButton.textContent = isAppsMode ? "Applications (Apps) ⇄ Sites" : "Sites ⇄ Applications (Apps)";
+
     siteContainer.style.display = isAppsMode ? "none" : "block";
     appContainer.style.display = isAppsMode ? "block" : "none";
 
@@ -103,4 +118,4 @@ function switchSiteAppContainer(isAppsMode, switchButton, siteContainer,
     return isAppsMode;
 }
 
-export { killBrowsers, resetItems, blockItems, switchSiteAppContainer};
+export { killBrowsers, resetItems, blockItems, switchSiteAppContainer };
