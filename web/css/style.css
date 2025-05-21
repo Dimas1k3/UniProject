@@ -57,7 +57,7 @@ button:hover {
     cursor: pointer;
 }
 
-#blockedSitesMsg, #siteErrMsg, #appErrMsg {
+#blockedSitesMsg, #siteErrMsg, #appErrMsg, #blockedAppsMsg, #resetErrMsg{
     position: fixed;
     top: 50%;
     left: 50%;

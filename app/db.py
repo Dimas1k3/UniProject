@@ -156,7 +156,7 @@ def update_item_status(item_type, item_id, status):
                 UPDATE {table}
                 SET is_active = ?
                 WHERE id = ?
-            ''', (0, item_id))
+            ''', (0, item_id))        
 
     conn.commit()
     conn.close()

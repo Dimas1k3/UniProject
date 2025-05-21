@@ -40,7 +40,11 @@ function resetItems(items, table) {
     });
 
     if (changed.length === 0) {
-        // show error
+        document.getElementById("resetErrMsg").style.display = "block";
+        setTimeout(() => {
+            document.getElementById("resetErrMsg").style.display = "none";
+        }, 2000);
+
         return;
     }
 
@@ -68,8 +72,6 @@ function blockItems(items, ErrMsg, type) {
     if (type === 'sites') {     
         window.pywebview.api.blockSites(items)
             .then((response) => {
-                console.info(response);
-                console.log(typeof response);
                 if (response === 'Websites blocked') {
                     const confirmKill = document.getElementById("confirmKill")
                     const cancelKill = document.getElementById("cancelKill")
@@ -94,6 +96,7 @@ function blockItems(items, ErrMsg, type) {
     if (type === 'apps') {
         window.pywebview.api.blockApps(items)
             .then((response) => { 
+                return;
             })
             .catch(err => {
                 console.error("Error while blocking", err);
