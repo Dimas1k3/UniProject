@@ -50,11 +50,6 @@ class API:
     def resetStatus(self, items, table):
         reset_status(items, table)
 
-        if table == "sites":
-            reset_sites()
-        elif table == "apps":
-            pass
-
         return f"{table[:-1]}"
 
 if __name__ == '__main__':
